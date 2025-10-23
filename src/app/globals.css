@@ -1,26 +1,184 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds - Warm neutrals with subtle cream undertone */
+  --background: oklch(0.99 0.002 85);
+  --foreground: oklch(0.20 0.005 265);
+  
+  /* Cards - Clean white with soft shadow support */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.20 0.005 265);
+  
+  /* Popovers and overlays */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.20 0.005 265);
+  
+  /* Primary - Sophisticated blue-violet for main CTAs */
+  --primary: oklch(0.55 0.14 265);
+  --primary-foreground: oklch(0.99 0 0);
+  
+  /* Secondary - Muted slate for secondary actions */
+  --secondary: oklch(0.96 0.01 265);
+  --secondary-foreground: oklch(0.30 0.03 265);
+  
+  /* Muted - Subtle backgrounds for less prominent elements */
+  --muted: oklch(0.97 0.005 265);
+  --muted-foreground: oklch(0.50 0.01 265);
+  
+  /* Accent - Teal for hover states and secondary interactions */
+  --accent: oklch(0.60 0.10 200);
+  --accent-foreground: oklch(0.99 0 0);
+  
+  /* Success - For liked/saved states */
+  --success: oklch(0.60 0.13 150);
+  --success-foreground: oklch(0.99 0 0);
+  
+  /* Warning - Amber for attention (if needed) */
+  --warning: oklch(0.75 0.12 70);
+  --warning-foreground: oklch(0.20 0.02 70);
+  
+  /* Destructive - For dislike/delete actions */
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  
+  /* Borders and inputs - Subtle and refined */
+  --border: oklch(0.92 0.005 265);
+  --input: oklch(0.97 0.005 265);
+  --ring: oklch(0.55 0.14 265);
+  
+  /* Chart colors - Balanced and harmonious */
+  --chart-1: oklch(0.55 0.14 265); /* Blue-violet */
+  --chart-2: oklch(0.60 0.10 200); /* Teal */
+  --chart-3: oklch(0.60 0.13 150); /* Green */
+  --chart-4: oklch(0.62 0.15 295); /* Purple */
+  --chart-5: oklch(0.65 0.12 45);  /* Orange */
+  
+  --radius: 0.75rem;
+  
+  /* Sidebar - Slightly off-white for subtle depth */
+  --sidebar: oklch(0.98 0.005 265);
+  --sidebar-foreground: oklch(0.20 0.005 265);
+  --sidebar-primary: oklch(0.55 0.14 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.96 0.01 265);
+  --sidebar-accent-foreground: oklch(0.30 0.03 265);
+  --sidebar-border: oklch(0.92 0.005 265);
+  --sidebar-ring: oklch(0.55 0.14 265);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/* Dark theme - Professional and easy on the eyes */
+.dark {
+  /* Backgrounds - Deep blue-gray with warmth */
+  --background: oklch(0.16 0.01 265);
+  --foreground: oklch(0.95 0.01 265);
+  
+  /* Cards - Elevated surfaces */
+  --card: oklch(0.20 0.01 265);
+  --card-foreground: oklch(0.95 0.01 265);
+  
+  /* Popovers */
+  --popover: oklch(0.18 0.01 265);
+  --popover-foreground: oklch(0.95 0.01 265);
+  
+  /* Primary - Brighter blue-violet for dark mode visibility */
+  --primary: oklch(0.62 0.16 265);
+  --primary-foreground: oklch(0.99 0 0);
+  
+  /* Secondary - Subtle contrast */
+  --secondary: oklch(0.24 0.02 265);
+  --secondary-foreground: oklch(0.80 0.05 265);
+  
+  /* Muted backgrounds */
+  --muted: oklch(0.23 0.01 265);
+  --muted-foreground: oklch(0.60 0.02 265);
+  
+  /* Accent - Vibrant teal for interactions */
+  --accent: oklch(0.65 0.12 200);
+  --accent-foreground: oklch(0.98 0 0);
+  
+  /* Success - Visible green for dark backgrounds */
+  --success: oklch(0.62 0.14 150);
+  --success-foreground: oklch(0.98 0 0);
+  
+  /* Warning */
+  --warning: oklch(0.70 0.13 70);
+  --warning-foreground: oklch(0.16 0.01 265);
+  
+  /* Destructive - Softer red for dark mode */
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  /* Borders and inputs - Subtle elevation */
+  --border: oklch(0.28 0.01 265);
+  --input: oklch(0.23 0.01 265);
+  --ring: oklch(0.62 0.16 265);
+  
+  /* Chart colors - Adjusted for dark mode visibility */
+  --chart-1: oklch(0.62 0.16 265); /* Blue-violet */
+  --chart-2: oklch(0.65 0.12 200); /* Teal */
+  --chart-3: oklch(0.62 0.14 150); /* Green */
+  --chart-4: oklch(0.65 0.16 295); /* Purple */
+  --chart-5: oklch(0.68 0.13 45);  /* Orange */
+  
+  /* Sidebar - Darker for depth */
+  --sidebar: oklch(0.18 0.01 265);
+  --sidebar-foreground: oklch(0.95 0.01 265);
+  --sidebar-primary: oklch(0.62 0.16 265);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.23 0.02 265);
+  --sidebar-accent-foreground: oklch(0.80 0.05 265);
+  --sidebar-border: oklch(0.28 0.01 265);
+  --sidebar-ring: oklch(0.62 0.16 265);
+}
+
+/* Define Tailwind color utilities */
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
 }
