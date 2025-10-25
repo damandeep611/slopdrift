@@ -1,11 +1,22 @@
 "use client"
 import React, { useState } from 'react';
-import { Home, Compass, Bookmark, Sparkles, Settings, Sun, User, Heart, ThumbsDown, Download, MoreHorizontal, Copy, Check, Search } from 'lucide-react';
-import { Image, mockImages } from './demo-image-data';
-import { ModeToggle } from '../theme/mode-toggle';
-
-
-
+import {
+  Home,
+  Compass,
+  Bookmark,
+  Sparkles,
+  Settings,
+  User,
+  Heart,
+  ThumbsDown,
+  Download,
+  MoreHorizontal,
+  Copy,
+  Check,
+  Search,
+} from "lucide-react";
+import { Image, mockImages } from "./demo-image-data";
+import { ModeToggle } from "../theme/mode-toggle";
 
 interface Category {
   id: string;
@@ -43,30 +54,58 @@ interface DetailViewProps {
   onDislike: () => void;
 }
 
-
 const mockCategories: Category[] = [
-  { id: 'cat1', name: 'Landscapes', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop', count: 234 },
-  { id: 'cat2', name: 'Abstract Art', image: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&h=300&fit=crop', count: 189 },
-  { id: 'cat3', name: 'Sci-Fi', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop', count: 156 },
-  { id: 'cat4', name: 'Animals', image: 'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=300&fit=crop', count: 298 },
+  {
+    id: "cat1",
+    name: "Landscapes",
+    image:
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
+    count: 234,
+  },
+  {
+    id: "cat2",
+    name: "Abstract Art",
+    image:
+      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&h=300&fit=crop",
+    count: 189,
+  },
+  {
+    id: "cat3",
+    name: "Sci-Fi",
+    image:
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop",
+    count: 156,
+  },
+  {
+    id: "cat4",
+    name: "Animals",
+    image:
+      "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=300&fit=crop",
+    count: 298,
+  },
 ];
 
 // Placeholder recommendation algorithm
-function getRecommendedImages(currentImage: Image, allImages: Image[]): Image[] {
+function getRecommendedImages(
+  currentImage: Image,
+  allImages: Image[]
+): Image[] {
   // TODO: Replace with real recommendation algorithm from backend
   // Current logic: Filter by same category, then random selection
   const sameCategory = allImages.filter(
-    img => img.id !== currentImage.id && img.category === currentImage.category
+    (img) =>
+      img.id !== currentImage.id && img.category === currentImage.category
   );
   const otherImages = allImages.filter(
-    img => img.id !== currentImage.id && img.category !== currentImage.category
+    (img) =>
+      img.id !== currentImage.id && img.category !== currentImage.category
   );
-  
+
   return [...sameCategory, ...otherImages].slice(0, 8);
 }
 
 export default function DemoTimeline() {
-  const [view, setView] = useState<'home' | 'detail'>('home');
+  const [view, setView] = useState<"home" | "detail">("home");
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [likedImages, setLikedImages] = useState<Set<string>>(new Set());
@@ -74,7 +113,7 @@ export default function DemoTimeline() {
 
   const handleImageClick = (image: Image) => {
     setSelectedImage(image);
-    setView('detail');
+    setView("detail");
     // In real Next.js app: router.push(`/gallery/${image.id}`)
   };
 
@@ -110,7 +149,7 @@ export default function DemoTimeline() {
     setDislikedImages(newDisliked);
   };
 
-  const recommendedImages = selectedImage 
+  const recommendedImages = selectedImage
     ? getRecommendedImages(selectedImage, mockImages)
     : [];
 
@@ -124,7 +163,12 @@ export default function DemoTimeline() {
           </div>
 
           <nav className="flex flex-col items-center space-y-8">
-            <NavItem icon={Home} label="Home" active={view === 'home'} onClick={() => setView('home')} />
+            <NavItem
+              icon={Home}
+              label="Home"
+              active={view === "home"}
+              onClick={() => setView("home")}
+            />
             <NavItem icon={Compass} label="Explore" />
             <NavItem icon={Bookmark} label="Collections" />
             <NavItem icon={Sparkles} label="Generate" />
@@ -151,9 +195,8 @@ export default function DemoTimeline() {
             </div>
           </div>
           <div className="flex items-center gap-3 ml-6">
-            
-              <ModeToggle/>
-           
+            <ModeToggle />
+
             <button className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
               <User className="w-4 h-4" />
             </button>
@@ -162,7 +205,7 @@ export default function DemoTimeline() {
 
         {/* Content Area */}
         <main className="flex-1 overflow-y-auto">
-          {view === 'home' ? (
+          {view === "home" ? (
             <HomeView
               images={mockImages}
               onImageClick={handleImageClick}
@@ -205,7 +248,7 @@ function NavItem({ icon: Icon, label, active, onClick }: NavItemProps) {
     <button
       onClick={onClick}
       className={`flex flex-col items-center gap-1.5 transition-colors ${
-        active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+        active ? "text-primary" : "text-muted-foreground hover:text-foreground"
       }`}
     >
       <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
@@ -214,11 +257,19 @@ function NavItem({ icon: Icon, label, active, onClick }: NavItemProps) {
   );
 }
 
-function MobileNavItem({ icon: Icon, label, active }: { icon: React.ElementType; label: string; active?: boolean }) {
+function MobileNavItem({
+  icon: Icon,
+  label,
+  active,
+}: {
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+}) {
   return (
     <button
       className={`flex flex-col items-center gap-1 transition-colors ${
-        active ? 'text-primary' : 'text-muted-foreground'
+        active ? "text-primary" : "text-muted-foreground"
       }`}
     >
       <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
@@ -227,13 +278,13 @@ function MobileNavItem({ icon: Icon, label, active }: { icon: React.ElementType;
   );
 }
 
-function HomeView({ 
-  images, 
-  onImageClick, 
-  likedImages, 
-  dislikedImages, 
-  toggleLike, 
-  toggleDislike 
+function HomeView({
+  images,
+  onImageClick,
+  likedImages,
+  dislikedImages,
+  toggleLike,
+  toggleDislike,
 }: {
   images: Image[];
   onImageClick: (image: Image) => void;
@@ -283,7 +334,14 @@ function HomeView({
   );
 }
 
-function MasonryCard({ image, onClick, isLiked, isDisliked, onLike, onDislike }: MasonryCardProps) {
+function MasonryCard({
+  image,
+  onClick,
+  isLiked,
+  isDisliked,
+  onLike,
+  onDislike,
+}: MasonryCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -302,7 +360,7 @@ function MasonryCard({ image, onClick, isLiked, isDisliked, onLike, onDislike }:
         />
 
         {isHovered && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent">
             <div className="absolute top-3 right-3 flex gap-2">
               <button
                 onClick={(e) => {
@@ -311,11 +369,14 @@ function MasonryCard({ image, onClick, isLiked, isDisliked, onLike, onDislike }:
                 }}
                 className={`w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg ${
                   isLiked
-                    ? 'bg-success text-success-foreground'
-                    : 'bg-white/95 dark:bg-card/95 text-foreground hover:scale-110'
+                    ? "bg-success text-success-foreground"
+                    : "bg-white/95 dark:bg-card/95 text-foreground hover:scale-110"
                 }`}
               >
-                <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} strokeWidth={2.5} />
+                <Heart
+                  className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`}
+                  strokeWidth={2.5}
+                />
               </button>
               <button
                 onClick={(e) => {
@@ -324,11 +385,14 @@ function MasonryCard({ image, onClick, isLiked, isDisliked, onLike, onDislike }:
                 }}
                 className={`w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg ${
                   isDisliked
-                    ? 'bg-destructive text-destructive-foreground'
-                    : 'bg-white/95 dark:bg-card/95 text-foreground hover:scale-110'
+                    ? "bg-destructive text-destructive-foreground"
+                    : "bg-white/95 dark:bg-card/95 text-foreground hover:scale-110"
                 }`}
               >
-                <ThumbsDown className={`w-4 h-4 ${isDisliked ? 'fill-current' : ''}`} strokeWidth={2.5} />
+                <ThumbsDown
+                  className={`w-4 h-4 ${isDisliked ? "fill-current" : ""}`}
+                  strokeWidth={2.5}
+                />
               </button>
             </div>
 
@@ -363,7 +427,7 @@ function DetailView({
   isLiked,
   isDisliked,
   onLike,
-  onDislike
+  onDislike,
 }: DetailViewProps) {
   const [showFullPrompt, setShowFullPrompt] = useState(false);
 
@@ -381,22 +445,28 @@ function DetailView({
                     onClick={onLike}
                     className={`px-5 py-2.5 rounded-full flex items-center gap-2.5 font-medium text-sm transition-all ${
                       isLiked
-                        ? 'bg-success text-success-foreground shadow-md'
-                        : 'bg-muted/80 hover:bg-muted text-foreground'
+                        ? "bg-success text-success-foreground shadow-md"
+                        : "bg-muted/80 hover:bg-muted text-foreground"
                     }`}
                   >
-                    <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} strokeWidth={2.5} />
+                    <Heart
+                      className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`}
+                      strokeWidth={2.5}
+                    />
                     Like
                   </button>
                   <button
                     onClick={onDislike}
                     className={`px-5 py-2.5 rounded-full flex items-center gap-2.5 font-medium text-sm transition-all ${
                       isDisliked
-                        ? 'bg-destructive text-destructive-foreground shadow-md'
-                        : 'bg-muted/80 hover:bg-muted text-foreground'
+                        ? "bg-destructive text-destructive-foreground shadow-md"
+                        : "bg-muted/80 hover:bg-muted text-foreground"
                     }`}
                   >
-                    <ThumbsDown className={`w-4 h-4 ${isDisliked ? 'fill-current' : ''}`} strokeWidth={2.5} />
+                    <ThumbsDown
+                      className={`w-4 h-4 ${isDisliked ? "fill-current" : ""}`}
+                      strokeWidth={2.5}
+                    />
                     Dislike
                   </button>
                 </div>
@@ -412,7 +482,10 @@ function DetailView({
               </div>
 
               {/* Image - Constrained to viewport */}
-              <div className="flex items-center justify-center p-8" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+              <div
+                className="flex items-center justify-center p-8"
+                style={{ maxHeight: "calc(100vh - 200px)" }}
+              >
                 <img
                   src={image.url}
                   alt={image.prompt}
@@ -431,8 +504,14 @@ function DetailView({
           <div className="lg:col-span-2">
             <div className="space-y-6">
               <div>
-                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Prompt</h2>
-                <p className={`text-base leading-relaxed text-foreground ${!showFullPrompt && 'line-clamp-3'}`}>
+                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                  Prompt
+                </h2>
+                <p
+                  className={`text-base leading-relaxed text-foreground ${
+                    !showFullPrompt && "line-clamp-3"
+                  }`}
+                >
                   {image.prompt}
                 </p>
                 {image.prompt.length > 100 && (
@@ -440,7 +519,7 @@ function DetailView({
                     onClick={() => setShowFullPrompt(!showFullPrompt)}
                     className="mt-2 text-sm text-primary hover:text-primary/80 font-medium"
                   >
-                    {showFullPrompt ? 'Show less' : 'Show more'}
+                    {showFullPrompt ? "Show less" : "Show more"}
                   </button>
                 )}
               </div>
@@ -465,7 +544,9 @@ function DetailView({
 
           {/* Generation Details */}
           <div>
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Details</h2>
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+              Details
+            </h2>
             <div className="space-y-3 border-l-2 border-border pl-4">
               <DetailItem label="Model" value={image.model} />
               <DetailItem label="Resolution" value={image.resolution} />
@@ -555,14 +636,16 @@ function DetailItem({ label, value }: { label: string; value: string }) {
 function CategoryCard({ category }: { category: Category }) {
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+      <div className="relative aspect-4/3 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
         <img
           src={category.image}
           alt={category.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-4">
-          <h3 className="text-white font-semibold text-lg mb-1">{category.name}</h3>
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-4">
+          <h3 className="text-white font-semibold text-lg mb-1">
+            {category.name}
+          </h3>
           <p className="text-white/80 text-sm">{category.count} images</p>
         </div>
       </div>

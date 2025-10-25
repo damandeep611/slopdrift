@@ -14,6 +14,8 @@ import {
   Zap,
 } from 'lucide-react';
 import Image from 'next/image';
+import { useParams } from "next/navigation";
+import { mockImages } from "@/components/demo/gallery-data";
 
 // Types
 interface ImageData {
@@ -47,83 +49,167 @@ interface RelatedImage {
 
 // Mock Data
 const mockImageData: ImageData = {
-  id: '2454624264',
-  url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=1600',
+  id: "2454624264",
+  url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=1600",
   prompt:
-    'A cozy wooden cabin nestled in misty mountains during golden hour, surrounded by pine trees and wildflowers, atmospheric lighting, cinematic composition, highly detailed, photorealistic',
-  model: 'Midjourney v6',
+    "A cozy wooden cabin nestled in misty mountains during golden hour, surrounded by pine trees and wildflowers, atmospheric lighting, cinematic composition, highly detailed, photorealistic",
+  model: "Midjourney v6",
   settings: {
-    resolution: '1024×1024',
-    quality: 'HD',
+    resolution: "1024×1024",
+    quality: "HD",
     steps: 50,
     seed: 123456789,
   },
-  category: 'Landscape',
+  category: "Landscape",
   likes: 342,
   isLiked: false,
 };
 
 const mockCategories: CategoryCard[] = [
   {
-    id: '1',
-    name: 'Landscape',
+    id: "1",
+    name: "Landscape",
     pinCount: 342,
     thumbnails: [
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300',
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300',
-      'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300',
-      'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=300',
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300",
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300",
+      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=300",
     ],
   },
   {
-    id: '2',
-    name: 'Nature',
+    id: "2",
+    name: "Nature",
     pinCount: 128,
     thumbnails: [
-      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300',
-      'https://images.unsplash.com/photo-1511497584788-876760111969?w=300',
-      'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300',
-      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300',
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300",
+      "https://images.unsplash.com/photo-1511497584788-876760111969?w=300",
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300",
     ],
   },
   {
-    id: '3',
-    name: 'Fantasy',
+    id: "3",
+    name: "Fantasy",
     pinCount: 891,
     thumbnails: [
-      'https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=300',
-      'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300',
-      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300',
+      "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=300",
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300",
     ],
   },
 ];
 
 const mockExploreImages: RelatedImage[] = [
-  { id: '1', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', title: 'Mountain Cabin' },
-  { id: '2', url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e', title: 'Snowy Peaks' },
-  { id: '3', url: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e', title: 'Forest Path' },
-  { id: '4', url: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff', title: 'Lake Reflection' },
-  { id: '5', url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e', title: 'Misty Forest' },
-  { id: '6', url: 'https://images.unsplash.com/photo-1511497584788-876760111969', title: 'Waterfall' },
-  { id: '7', url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05', title: 'Northern Lights' },
-  { id: '8', url: 'https://images.unsplash.com/photo-1518623489648-a173ef7824f3', title: 'Enchanted Forest' },
-  { id: '9', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', title: 'Ocean Cliff' },
-  { id: '10', url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e', title: 'Zen Garden' },
-  { id: '11', url: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e', title: 'Cityscape' },
-  { id: '12', url: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff', title: 'Desert Dunes' },
-  { id: '13', url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e', title: 'Floating Castle' },
-  { id: '14', url: 'https://images.unsplash.com/photo-1511497584788-876760111969', title: 'Tropical Beach' },
-  { id: '15', url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05', title: 'Winter Village' },
-  { id: '16', url: 'https://images.unsplash.com/photo-1518623489648-a173ef7824f3', title: 'Sunset Hills' },
-  { id: '17', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', title: 'Canyon View' },
-  { id: '18', url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e', title: 'Alpine Lake' },
-  { id: '19', url: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e', title: 'Autumn Forest' },
-  { id: '20', url: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff', title: 'River Valley' },
+  {
+    id: "1",
+    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    title: "Mountain Cabin",
+  },
+  {
+    id: "2",
+    url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    title: "Snowy Peaks",
+  },
+  {
+    id: "3",
+    url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
+    title: "Forest Path",
+  },
+  {
+    id: "4",
+    url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+    title: "Lake Reflection",
+  },
+  {
+    id: "5",
+    url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    title: "Misty Forest",
+  },
+  {
+    id: "6",
+    url: "https://images.unsplash.com/photo-1511497584788-876760111969",
+    title: "Waterfall",
+  },
+  {
+    id: "7",
+    url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+    title: "Northern Lights",
+  },
+  {
+    id: "8",
+    url: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3",
+    title: "Enchanted Forest",
+  },
+  {
+    id: "9",
+    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    title: "Ocean Cliff",
+  },
+  {
+    id: "10",
+    url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    title: "Zen Garden",
+  },
+  {
+    id: "11",
+    url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
+    title: "Cityscape",
+  },
+  {
+    id: "12",
+    url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+    title: "Desert Dunes",
+  },
+  {
+    id: "13",
+    url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    title: "Floating Castle",
+  },
+  {
+    id: "14",
+    url: "https://images.unsplash.com/photo-1511497584788-876760111969",
+    title: "Tropical Beach",
+  },
+  {
+    id: "15",
+    url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+    title: "Winter Village",
+  },
+  {
+    id: "16",
+    url: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3",
+    title: "Sunset Hills",
+  },
+  {
+    id: "17",
+    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    title: "Canyon View",
+  },
+  {
+    id: "18",
+    url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    title: "Alpine Lake",
+  },
+  {
+    id: "19",
+    url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
+    title: "Autumn Forest",
+  },
+  {
+    id: "20",
+    url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+    title: "River Valley",
+  },
 ];
 
 export default function ImagePage() {
-  const [imageData, setImageData] = useState<ImageData>(mockImageData);
+  const params = useParams();
+  const detailImageId = params.id as string;
+  const foundImage = mockImages.find((img) => img.id === detailImageId);
+  const initialImageData = foundImage || mockImageData;
+  const [imageData, setImageData] = useState<ImageData>(initialImageData);
   const [showFullPrompt, setShowFullPrompt] = useState(false);
   const [visibleExploreImages, setVisibleExploreImages] = useState(15);
 
@@ -136,7 +222,9 @@ export default function ImagePage() {
   };
 
   const loadMoreExplore = () => {
-    setVisibleExploreImages((prev) => Math.min(prev + 20, mockExploreImages.length));
+    setVisibleExploreImages((prev) =>
+      Math.min(prev + 20, mockExploreImages.length)
+    );
   };
 
   return (
@@ -159,13 +247,13 @@ export default function ImagePage() {
                 <button
                   onClick={toggleLike}
                   className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-secondary/50 ${
-                    imageData.isLiked ? 'text-destructive' : 'text-foreground'
+                    imageData.isLiked ? "text-destructive" : "text-foreground"
                   }`}
                 >
                   <Heart
                     className="h-4 w-4"
                     strokeWidth={1.5}
-                    fill={imageData.isLiked ? 'currentColor' : 'none'}
+                    fill={imageData.isLiked ? "currentColor" : "none"}
                   />
                   <span className="hidden sm:inline">{imageData.likes}</span>
                 </button>
@@ -230,7 +318,9 @@ export default function ImagePage() {
                   <Sparkles className="h-3.5 w-3.5" strokeWidth={1.5} />
                   Model
                 </div>
-                <p className="text-lg font-semibold text-foreground">{imageData.model}</p>
+                <p className="text-lg font-semibold text-foreground">
+                  {imageData.model}
+                </p>
               </div>
 
               {/* Category Tag */}
@@ -251,7 +341,7 @@ export default function ImagePage() {
                 <div className="relative">
                   <p
                     className={`text-sm leading-relaxed text-foreground/80 ${
-                      !showFullPrompt ? 'line-clamp-3' : ''
+                      !showFullPrompt ? "line-clamp-3" : ""
                     }`}
                   >
                     {imageData.prompt}
@@ -261,10 +351,10 @@ export default function ImagePage() {
                       onClick={() => setShowFullPrompt(!showFullPrompt)}
                       className="mt-2 flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80"
                     >
-                      {showFullPrompt ? 'Show less' : 'Show more'}
+                      {showFullPrompt ? "Show less" : "Show more"}
                       <ChevronDown
                         className={`h-3 w-3 transition-transform ${
-                          showFullPrompt ? 'rotate-180' : ''
+                          showFullPrompt ? "rotate-180" : ""
                         }`}
                         strokeWidth={1.5}
                       />
@@ -322,7 +412,9 @@ export default function ImagePage() {
             transition={{ delay: 0.2 }}
             className="w-[25%] overflow-y-auto p-6"
           >
-            <h3 className="mb-4 text-sm font-semibold text-foreground">More Like This</h3>
+            <h3 className="mb-4 text-sm font-semibold text-foreground">
+              More Like This
+            </h3>
             <div className="space-y-4">
               {mockCategories.map((category) => (
                 <motion.div
@@ -333,7 +425,10 @@ export default function ImagePage() {
                 >
                   <div className="grid grid-cols-2 gap-1 p-1">
                     {category.thumbnails.map((thumb, idx) => (
-                      <div key={idx} className="relative aspect-square overflow-hidden rounded-lg">
+                      <div
+                        key={idx}
+                        className="relative aspect-square overflow-hidden rounded-lg"
+                      >
                         <Image
                           src={thumb}
                           alt=""
@@ -345,8 +440,12 @@ export default function ImagePage() {
                   </div>
                   <div className="absolute inset-0 flex items-end bg-linear-to-t from-overlay/80 via-overlay/40 to-transparent p-4">
                     <div>
-                      <p className="text-sm font-semibold text-white">{category.name}</p>
-                      <p className="text-xs text-white/80">{category.pinCount} pins</p>
+                      <p className="text-sm font-semibold text-white">
+                        {category.name}
+                      </p>
+                      <p className="text-xs text-white/80">
+                        {category.pinCount} pins
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -362,28 +461,32 @@ export default function ImagePage() {
       {/* More to Explore - 5 Column Masonry */}
       <section className="border-t border-border bg-background py-12">
         <div className="mx-auto max-w-[1920px] px-6">
-          <h2 className="mb-8 text-2xl font-semibold text-foreground">More to Explore</h2>
+          <h2 className="mb-8 text-2xl font-semibold text-foreground">
+            More to Explore
+          </h2>
 
           <div className="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5">
-            {mockExploreImages.slice(0, visibleExploreImages).map((img, idx) => (
-              <motion.div
-                key={img.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                className="group relative mb-4 break-inside-avoid overflow-hidden rounded-xl"
-              >
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={img.url}
-                    alt={img.title}
-                    fill
-                    className="rounded-xl object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-overlay/0 transition-colors group-hover:bg-overlay/20" />
-              </motion.div>
-            ))}
+            {mockExploreImages
+              .slice(0, visibleExploreImages)
+              .map((img, idx) => (
+                <motion.div
+                  key={img.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="group relative mb-4 break-inside-avoid overflow-hidden rounded-xl"
+                >
+                  <div className="relative h-64 w-full">
+                    <Image
+                      src={img.url}
+                      alt={img.title}
+                      fill
+                      className="rounded-xl object-cover transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-overlay/0 transition-colors group-hover:bg-overlay/20" />
+                </motion.div>
+              ))}
           </div>
 
           {visibleExploreImages < mockExploreImages.length && (
