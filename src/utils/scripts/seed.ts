@@ -1,5 +1,6 @@
-import { db } from "../db";
-import { users } from "../db/schema";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+
 
 async function main(){
   const seeduser: typeof users.$inferInsert = {

@@ -4,7 +4,7 @@ import { motion, Variants } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link";
 
-export default function HeroSection() {
+export default function LoginPage() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
