@@ -140,13 +140,15 @@ export default function HomeHeader() {
             Try <span className="font-bold text-warning">Pro</span>
           </motion.button>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-5 py-2.5 font-medium hover:bg-muted rounded-lg transition-colors"
-          >
-            Login
-          </motion.button>
+          <Link href="/userauth">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2.5 font-medium hover:bg-muted rounded-lg transition-colors"
+            >
+              Login
+            </motion.button>
+          </Link>
 
           <div className="relative">
             <motion.button

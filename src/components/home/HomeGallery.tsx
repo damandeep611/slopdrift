@@ -14,7 +14,7 @@ export default function HomeGallery() {
 
 
     const handleImageClick = (imageId: string) => {
-    router.push(`/browse/${imageId}`);
+    router.push(`/image/${imageId}`);
   };
 
   const toggleLike = (imageId: string, e: React.MouseEvent) => {
