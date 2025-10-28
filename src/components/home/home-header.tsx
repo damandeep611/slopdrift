@@ -3,16 +3,22 @@ import {
   Menu,
   Search,
   Sparkles,
-  User,
   Settings,
   LogOut,
   X,
   ImageIcon,
+  User2,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ModeToggle } from "../theme/mode-toggle";
+import type { User } from "@supabase/supabase-js";
+import UserProfile from "../auth/user-profile";
+
+interface homeHeaderProps {
+  user: User | null;
+}
 
 interface NavItem {
   id: string;
@@ -38,7 +44,7 @@ const navItems: NavItem[] = [
   },
 ];
 
-export default function HomeHeader() {
+export default function HomeHeader({ user }: homeHeaderProps) {
   const [activeNav, setActiveNav] = useState("photos-id");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -140,15 +146,19 @@ export default function HomeHeader() {
             Try <span className="font-bold text-warning">Pro</span>
           </motion.button>
 
-          <Link href="/userauth">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-5 py-2.5 font-medium hover:bg-muted rounded-lg transition-colors"
-            >
-              Login
-            </motion.button>
-          </Link>
+          {user ? (
+            <UserProfile user={user} />
+          ) : (
+            <Link href="/auth">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-5 py-2.5 font-medium hover:bg-muted rounded-lg transition-colors"
+              >
+                Login
+              </motion.button>
+            </Link>
+          )}
 
           <div className="relative">
             <motion.button
@@ -221,7 +231,7 @@ export default function HomeHeader() {
                         whileHover={{ backgroundColor: "hsl(var(--muted))" }}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors"
                       >
-                        <User size={18} />
+                        <User2 size={18} />
                         <span className="font-medium">Profile</span>
                       </motion.button>
 

@@ -1,10 +1,12 @@
 import HomeHeader from "@/components/home/home-header";
 import HomeGallery from "@/components/home/HomeGallery";
+import { getUser } from "@/utils/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUser();
   return (
     <div>
-      <HomeHeader />
+      <HomeHeader user={user} />
       <HomeGallery />
     </div>
   );
