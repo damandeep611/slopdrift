@@ -1,5 +1,14 @@
-import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { authUsers } from "drizzle-orm/supabase";
+
+export const userRoleEnum = pgEnum("user_role", ["user", "admin"]);
 
 export const users = pgTable("users", {
   id: uuid("id")
@@ -7,7 +16,8 @@ export const users = pgTable("users", {
     .references(() => authUsers.id),
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: text("name"),
-  avatarUrl: text("avatar_url"),
+  avatarUrl: text("avatar_url"), //google id avatar url
+  role: userRoleEnum("role").default("user").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

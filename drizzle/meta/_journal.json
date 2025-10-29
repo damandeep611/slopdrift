@@ -15,6 +15,13 @@
       "when": 1761534199841,
       "tag": "0001_great_la_nuit",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761666852720,
+      "tag": "0002_perpetual_red_wolf",
+      "breakpoints": true
     }
   ]
 }
