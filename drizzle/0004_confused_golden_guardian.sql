@@ -1,0 +1,1 @@
+ALTER TABLE "gallery_images" ADD COLUMN "file_size" integer NOT NULL;

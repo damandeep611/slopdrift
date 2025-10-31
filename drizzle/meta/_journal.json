@@ -22,6 +22,20 @@
       "when": 1761666852720,
       "tag": "0002_perpetual_red_wolf",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1761706686522,
+      "tag": "0003_robust_imperial_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1761791922339,
+      "tag": "0004_confused_golden_guardian",
+      "breakpoints": true
     }
   ]
 }

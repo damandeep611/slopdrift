@@ -1,4 +1,6 @@
 import {
+  boolean,
+  integer,
   pgEnum,
   pgTable,
   text,
@@ -23,11 +25,14 @@ export const users = pgTable("users", {
 
 export const galleryImages = pgTable("gallery_images", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
+  uploadedBy: uuid("uploaded_by")
     .references(() => users.id)
     .notNull(),
   imageUrl: text("image_url").notNull(),
   prompt: text("prompt").notNull(),
   aiModel: varchar("ai_model", { length: 100 }),
+  category: varchar("category", { length: 50 }),
+  fileSize: integer("file_size").notNull(),
+  isPublic: boolean("is_public").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
