@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   DownloadIcon,
   Folder,
-  Heart,
+
   ImageIcon,
   LogOutIcon,
 
@@ -32,7 +32,6 @@ const menuItems = [
     items: [
       { icon: User2Icon, label: "View profile" },
       { icon: ImageIcon, label: "My images" },
-      { icon: Heart, label: "My favorites" },
       { icon: Folder, label: "My collections" },
     ],
   },
