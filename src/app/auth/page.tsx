@@ -3,28 +3,27 @@
 import { loginAction } from "@/actions/users"
 import { Provider } from "@supabase/supabase-js"
 import { motion, Variants } from "framer-motion"
-import { ArrowLeft, Mail, Lock, Eye, EyeOff } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useState, useTransition } from "react"
-import toast from "react-hot-toast"
+import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [isPending, startTransition]  = useTransition();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isPending, startTransition] = useTransition();
 
-  const handleClickLoginButton = (provider: Provider)=> {
-    startTransition(async()=> {
-      const {errorMessage, url} = await loginAction(provider)
-      if(!errorMessage && url){
-        router.push(url)
-      }else{
-        toast.error(errorMessage)
+  const handleClickLoginButton = (provider: Provider) => {
+    startTransition(async () => {
+      const { errorMessage, url } = await loginAction(provider);
+      if (!errorMessage && url) {
+        router.push(url);
+      } else {
+        toast.error(errorMessage);
       }
-    })
-  }
+    });
+  };
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -35,7 +34,7 @@ export default function LoginPage() {
         delayChildren: 0.15,
       },
     },
-  }
+  };
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -44,7 +43,7 @@ export default function LoginPage() {
       y: 0,
       transition: { duration: 0.5, ease: [0.22, 0.61, 0.36, 1] },
     },
-  }
+  };
 
   const imageVariants: Variants = {
     hidden: { opacity: 0, scale: 1.1 },
@@ -53,7 +52,7 @@ export default function LoginPage() {
       scale: 1,
       transition: { duration: 1.2, ease: [0.22, 0.61, 0.36, 1] },
     },
-  }
+  };
 
   return (
     <div className="h-screen bg-white flex overflow-hidden">
@@ -82,18 +81,6 @@ export default function LoginPage() {
             <h2 className="text-xl font-bold text-gray-900">ArtesiaFlow</h2>
             <p className="text-xs text-gray-500 mt-1">
               Create stunning AI-generated imagery
-            </p>
-          </motion.div>
-
-          {/* Welcome Text */}
-          <motion.div variants={itemVariants} className="mb-6">
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-              {isLogin ? "Welcome back" : "Create account"}
-            </h1>
-            <p className="text-sm text-gray-600">
-              {isLogin
-                ? "Enter your credentials to access your account"
-                : "Sign up to start creating amazing content"}
             </p>
           </motion.div>
 
@@ -130,105 +117,6 @@ export default function LoginPage() {
               {isPending ? "Logging in.." : "Continue with Google"}
             </button>
           </motion.div>
-
-          {/* Divider */}
-          <motion.div variants={itemVariants} className="relative mb-5">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="px-3 bg-white text-gray-500">
-                Or continue with email
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Form */}
-          <motion.form variants={itemVariants} className="space-y-3.5">
-            {/* Email Input */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                Email address
-              </label>
-              <div className="relative">
-                <Mail
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={16}
-                />
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg text-black border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                />
-              </div>
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                Password
-              </label>
-              <div className="relative">
-                <Lock
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  size={16}
-                />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  className="w-full pl-9 text-black pr-10 py-2.5 text-sm rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Remember & Forgot */}
-            {isLogin && (
-              <div className="flex items-center justify-between pt-1">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="text-xs text-gray-600">Remember me</span>
-                </label>
-                <button
-                  type="button"
-                  className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  Forgot password?
-                </button>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-gray-900 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-gray-800 transition-colors mt-4"
-            >
-              {isLogin ? "Sign in" : "Create account"}
-            </button>
-          </motion.form>
-
-          {/* Toggle Login/Signup */}
-          <motion.p
-            variants={itemVariants}
-            className="text-center text-xs text-gray-600 mt-4"
-          >
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              {isLogin ? "Sign up" : "Sign in"}
-            </button>
-          </motion.p>
         </div>
 
         {/* Footer - Fixed */}
@@ -267,7 +155,7 @@ export default function LoginPage() {
                 <div className="w-5 h-5 rounded-full bg-linear-to-br from-pink-400 to-pink-600 border-2 border-white"></div>
               </div>
               <span className="text-xs font-medium text-gray-700">
-                4,000+ creators
+                4,000+ Images to Play with
               </span>
             </div>
           </div>
@@ -279,12 +167,6 @@ export default function LoginPage() {
             </p>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-400 to-pink-600"></div>
-              <div>
-                <p className="font-medium text-gray-900 text-xs">
-                  Sarah Johnson
-                </p>
-                <p className="text-xs text-gray-600">Creative Director</p>
-              </div>
             </div>
           </div>
         </div>
@@ -298,9 +180,11 @@ export default function LoginPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <img
-              src="https://image.lexica.art/full_jpg/d2994f02-9175-4f1a-9e86-527d570a2bb1"
-              alt="AI Generated Art 1"
+            <Image
+              src="/stockimages/standgir.png"
+              alt="Ai generated girl standing near car"
+              width={1920}
+              height={1080}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
@@ -314,9 +198,11 @@ export default function LoginPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4"
-                alt="Nature landscape"
+              <Image
+                src="/stockimages/miniontrek.png"
+                alt="Ai generated girl standing near car"
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
@@ -327,9 +213,11 @@ export default function LoginPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <img
-                src="https://image.lexica.art/full_jpg/7b334c62-d5bc-4fa4-9eaa-db2232c57fd6"
-                alt="AI Generated Art 2"
+              <Image
+                src="/stockimages/minioshine.png"
+                alt="Ai generated girl standing near car"
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
@@ -344,9 +232,11 @@ export default function LoginPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              <img
-                src="https://image.lexica.art/full_jpg/18f074fb-5717-4652-b596-675f29c917ad"
-                alt="AI Generated Art 3"
+              <Image
+                src="/stockimages/divingwa.png"
+                alt="Ai generated girl standing near car"
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
